@@ -4,17 +4,26 @@ import './App.css';
 import Flat from './components/flat'
 
 class App extends Component {
-  render() {
-    const flat = {
-      "name": "Charm at the Steps of the Sacre Coeur/Montmartre",
-      "imageUrl": "https://raw.githubusercontent.com/lewagon/flats-boilerplate/master/images/flat1.jpg",
-      "price": 164,
-      "priceCurrency": "EUR",
-      "lat": 48.884211,
-      "lng": 2.346890
+  constructor(props) {
+    super(props);
+    this.state = {
+      flats: []
     };
+  }
 
-    const flats = [ flat, flat, flat ];
+  componentDidMount() {
+    const url = "https://raw.githubusercontent.com/lewagon/flats-boilerplate/master/flats.json";
+    fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({
+        flats: data
+      })
+    })
+
+  }
+
+  render() {
 
     return (
       <div className="app">
@@ -22,7 +31,7 @@ class App extends Component {
           <div className="search">
           </div>
           <div className="flats">
-            {flats.map((flat) => {
+            {this.state.flats.map((flat) => {
               return <Flat flat={flat} />
             })}
           </div>
